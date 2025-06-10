@@ -1,4 +1,4 @@
-int scene = 6;
+int scene = 5;
 int carSelect = -1;
 IntList carX;
 IntList carY;
@@ -12,7 +12,16 @@ void setup() {
 
 void draw() {
   background(#0070FF);
-  parkingGame();
+  if (scene == 1 || scene == 2 || scene == 3 || scene == 4 || scene == 5 || scene == 6 || scene == 7 || scene == 8 || scene == 9) {
+    pushMatrix();
+    translate(150, 0);
+    parkingGame();
+    popMatrix();
+  } else if (scene == 10) {
+    background(255);
+  } else if (scene == 11) {
+    background(0);
+  }
 }
 
 void parkingGame() {
@@ -49,7 +58,10 @@ void parkingGame() {
       carWidth = new IntList(180, 180, 270, 0, 0, 0, 90, 90, 90, 90, -100);
       carHeight = new IntList(90, 90, 90, 0, 0, 0, 180, 180, 180, 180, -100);
     } else if (scene == 5) {
-      
+      carX = new IntList(360, 270, 450, -100, -100, -100, 315, 405, 495, 675, -100);
+      carY = new IntList(255, 345, 525, -100, -100, -100, 480, 390, 255, 255, -100);
+      carWidth = new IntList(180, 180, 180, 0, 0, 0, 90, 90, 90, 90, 0);
+      carHeight = new IntList(90, 90, 90, 0, 0, 0, 180, 180, 270, 270, 0);
     } else if (scene == 6) {
       carX = new IntList(450, 270, 540, 315, -100, -100, 225, 405, 585, 585, 495);
       carY = new IntList(255, 75, 165, 435, -100, -100, 210, 120, 300, 480, 435);
@@ -100,7 +112,7 @@ void fishCar() {
 void car1() {
   pushMatrix();
   translate(carX.get(1), carY.get(1));
-  if (scene == 1 || scene == 2 || scene == 4 || scene == 6 || scene == 7 || scene == 9) {
+  if (scene == 1 || scene == 2 || scene == 4 || scene == 5|| scene == 6 || scene == 7 || scene == 9) {
     image(loadImage("can.png"), -90, -45, 180, 90);
   } else if (scene == 3 || scene == 8) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
@@ -111,7 +123,7 @@ void car1() {
 void car2() {
   pushMatrix();
   translate(carX.get(2), carY.get(2));
-  if (scene == 1 || scene == 6 || scene == 7 || scene == 9) {
+  if (scene == 1 || scene == 5|| scene == 6 || scene == 7 || scene == 9) {
     image(loadImage("can.png"), -90, -45, 180, 90);
   } else if (scene == 3 || scene == 4 || scene == 8) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
@@ -156,7 +168,7 @@ void car6() {
   rotate(radians(90));
   if (scene == 7) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
-  } else if (scene == 1 || scene == 2 || scene == 3 || scene == 4 || scene == 6 || scene == 8 || scene == 9) {
+  } else if (scene == 1 || scene == 2 || scene == 3 || scene == 4 || scene == 5|| scene == 6 || scene == 8 || scene == 9) {
     image(loadImage("can.png"), -90, -45, 180, 90);
   }
   popMatrix();
@@ -168,7 +180,7 @@ void car7() {
   rotate(radians(90));
   if (scene == 1 || scene == 7) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
-  } else if (scene == 2 || scene == 3 || scene == 4 || scene == 6 || scene == 8 || scene == 9) {
+  } else if (scene == 2 || scene == 3 || scene == 4 || scene == 5|| scene == 6 || scene == 8 || scene == 9) {
     image(loadImage("can.png"), -90, -45, 180, 90);
   }
   popMatrix();
@@ -178,7 +190,7 @@ void car8() {
   pushMatrix();
   translate(carX.get(8), carY.get(8));
   rotate(radians(90));
-  if (scene == 1 || scene == 3 || scene == 7 || scene == 8) {
+  if (scene == 1 || scene == 3 || scene == 5|| scene == 7 || scene == 8) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
   } else if (scene == 2 || scene == 4 || scene == 6 || scene == 9) {
     image(loadImage("can.png"), -90, -45, 180, 90);
@@ -192,7 +204,7 @@ void car9() {
   rotate(radians(90));
   if (scene == 4 || scene == 6 || scene == 7 || scene == 9) {
     image(loadImage("can.png"), -90, -45, 180, 90);
-  } else if (scene == 2 || scene == 3 || scene == 8) {
+  } else if (scene == 2 || scene == 3 || scene == 5|| scene == 8) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
   }
   popMatrix();
@@ -240,87 +252,96 @@ void mousePressed() {
 }
 
 void keyPressed() {
-  if (keyCode == LEFT) {
-    for (int i = 0; i < 6; i++) {
-      if (carSelect == i + 1 && carX.get(i) - carWidth.get(i)/2 > 180) {
-        for (int j = 0; j < 11; j++) {
-          if (abs(carX.get(i) - carX.get(j)) <= (carWidth.get(i) + carWidth.get(j))/2) {
-            if (carX.get(i) - carX.get(j) > 0) {
-              if (abs(carY.get(i) - carY.get(j)) <= abs(carHeight.get(i) - carHeight.get(j))/2) {
-                collision = true;
-                break;
-              } else {
-                collision = false;
+  if (carX.get(0) < 630) {
+    if (keyCode == LEFT) {
+      for (int i = 0; i < 6; i++) {
+        if (carSelect == i + 1 && carX.get(i) - carWidth.get(i)/2 > 180) {
+          for (int j = 0; j < 11; j++) {
+            if (abs(carX.get(i) - carX.get(j)) <= (carWidth.get(i) + carWidth.get(j))/2) {
+              if (carX.get(i) - carX.get(j) > 0) {
+                if (abs(carY.get(i) - carY.get(j)) <= abs(carHeight.get(i) - carHeight.get(j))/2) {
+                  collision = true;
+                  break;
+                } else {
+                  collision = false;
+                }
               }
             }
           }
-        }
-        if (collision == false) {
-          carX.add(i, -90);
+          if (collision == false) {
+            carX.add(i, -90);
+          }
         }
       }
-    }
-  }
-  if (keyCode == DOWN) {
-    for (int i = 6; i < 11; i++) {
-      if (carSelect == i + 1 && carY.get(i) + carHeight.get(i)/2 < 570) {
-        for (int j = 0; j < 11; j++) {
-          if (abs(carY.get(i) - carY.get(j)) <= (carHeight.get(i) + carHeight.get(j))/2) {
-            if (carY.get(i) - carY.get(j) < 0) {
-              if (abs(carX.get(i) - carX.get(j)) <= abs(carWidth.get(i) - carWidth.get(j))/2) {
-                collision = true;
-                break;
-              } else {
-                collision = false;
+    } else if (keyCode == DOWN) {
+      for (int i = 6; i < 11; i++) {
+        if (carSelect == i + 1 && carY.get(i) + carHeight.get(i)/2 < 570) {
+          for (int j = 0; j < 11; j++) {
+            if (abs(carY.get(i) - carY.get(j)) <= (carHeight.get(i) + carHeight.get(j))/2) {
+              if (carY.get(i) - carY.get(j) < 0) {
+                if (abs(carX.get(i) - carX.get(j)) <= abs(carWidth.get(i) - carWidth.get(j))/2) {
+                  collision = true;
+                  break;
+                } else {
+                  collision = false;
+                }
               }
             }
           }
-        }
-        if (collision == false) {
-          carY.add(i, 90);
+          if (collision == false) {
+            carY.add(i, 90);
+          }
         }
       }
-    }
-  }
-  if (keyCode == RIGHT) {
-    for (int i = 0; i < 6; i++) {
-      if (carSelect == i + 1 && carX.get(i) + carWidth.get(i)/2 < 720) {
-        for (int j = 0; j < 11; j++) {
-          if (abs(carX.get(i) - carX.get(j)) <= (carWidth.get(i) + carWidth.get(j))/2) {
-            if (carX.get(i) - carX.get(j) < 0) {
-              if (abs(carY.get(i) - carY.get(j)) <= abs(carHeight.get(i) - carHeight.get(j))/2) {
-                collision = true;
-                break;
-              } else {
-                collision = false;
+    } else if (keyCode == RIGHT) {
+      for (int i = 0; i < 6; i++) {
+        if (carSelect == i + 1 && carX.get(i) + carWidth.get(i)/2 < 720) {
+          for (int j = 0; j < 11; j++) {
+            if (abs(carX.get(i) - carX.get(j)) <= (carWidth.get(i) + carWidth.get(j))/2) {
+              if (carX.get(i) - carX.get(j) < 0) {
+                if (abs(carY.get(i) - carY.get(j)) <= abs(carHeight.get(i) - carHeight.get(j))/2) {
+                  collision = true;
+                  break;
+                } else {
+                  collision = false;
+                }
               }
             }
           }
-        }
-        if (collision == false) {
-          carX.add(i, 90);
+          if (collision == false) {
+            carX.add(i, 90);
+          }
         }
       }
-    }
-  }
-  if (keyCode == UP) {
-    for (int i = 6; i < 11; i++) {
-      if (carSelect == i + 1 && carY.get(i) - carHeight.get(i)/2 > 30) {
-        for (int j = 0; j < 11; j++) {
-          if (abs(carY.get(i) - carY.get(j)) <= (carHeight.get(i) + carHeight.get(j))/2) {
-            if (carY.get(i) - carY.get(j) > 0) {
-              if (abs(carX.get(i) - carX.get(j)) <= abs(carWidth.get(i) - carWidth.get(j))/2) {
-                collision = true;
-                break;
-              } else {
-                collision = false;
+    } else if (keyCode == UP) {
+      for (int i = 6; i < 11; i++) {
+        if (carSelect == i + 1 && carY.get(i) - carHeight.get(i)/2 > 30) {
+          for (int j = 0; j < 11; j++) {
+            if (abs(carY.get(i) - carY.get(j)) <= (carHeight.get(i) + carHeight.get(j))/2) {
+              if (carY.get(i) - carY.get(j) > 0) {
+                if (abs(carX.get(i) - carX.get(j)) <= abs(carWidth.get(i) - carWidth.get(j))/2) {
+                  collision = true;
+                  break;
+                } else {
+                  collision = false;
+                }
               }
             }
           }
+          if (collision == false) {
+            carY.add(i, -90);
+          }
         }
-        if (collision == false) {
-          carY.add(i, -90);
-        }
+      }
+    } else if (key == 'r') {
+      carSelect = -1;
+    } else if (key == 'i') {
+      scene = 11;
+    }
+  } else {
+    if (keyPressed) {
+      if (keyCode == RIGHT) {
+        scene = 10;
       }
     }
   }
