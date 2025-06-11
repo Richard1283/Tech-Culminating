@@ -1,0 +1,10 @@
+void setup(){
+  size(900,600);
+}
+void draw(){
+  backgroudn(x);
+}
+void gameInstructions(){
+  textFont(createFont("Cooper Black",60));
+  text("In this game, you will be catching fish. Every time you catch a fish, you must play a minigame to continue. Catch three fish to win. Good luck Player!");
+}
