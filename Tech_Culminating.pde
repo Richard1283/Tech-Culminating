@@ -25,7 +25,7 @@ int trashY;
 int trashY2;
 int fishRebound=5;
 int fishRebound2=6;
-int fishRebound3=5;
+int fishRebound3=6;
 int fishRebound4=7;
 int trashRebound=6;
 int trashRebound2=6;
@@ -40,6 +40,7 @@ void setup() {
 }
 
 void draw() {
+  println(difficulty);
   background(#299DE3);
   if (scene == 0) {
     if (hookY > 330) {
@@ -61,63 +62,78 @@ void draw() {
         delay(100);
       }
       if (mousePressed == true && mouseX <= 650 && mouseX >= 250 && mouseY >= 400 && mouseY <= 500) {
-        
       }
       menu();
       titleScreen();
     }
   } else if (scene == 1) {
+    levelSelection();
+    if (mousePressed == true && mouseX <= 505 && mouseX >= 305 && mouseY >= 300 && mouseY <= 340) {
+      difficulty = 3;
+    }
+    if (mousePressed == true && mouseX <= 600 && mouseX >= 305 && mouseY >= 360 && mouseY <= 400) {
+      difficulty = 2;
+    }
+    if (mousePressed == true && mouseX <= 500 && mouseX >= 305 && mouseY >= 420 && mouseY <= 460) {
+      difficulty = 1;
+    }
+    if (keyPressed) {
+      if (key == ENTER && difficulty != 0) {
+        scene = 2;
+      }
+    }
+  } else if (scene == 2) {
     instructions1();
     if (keyPressed) {
       if (key == 'm') {
         scene = 0;
       } else if (key == 'p') {
-        scene = 2;
-      }
-    }
-  } else if (scene == 2) {
-    fishGame();
-    if (keyPressed) {
-      if (key == 'i') {
-        scene = 1;
+        scene = 3;
       }
     }
   } else if (scene == 3) {
+    fishGame();
+    if (keyPressed) {
+      if (key == 'i') {
+        scene = 2;
+      }
+    }
+  } else if (scene == 4) {
     if (fishCaught == 1) {
       instructions2();
     } else if (fishCaught == 2 || fishCaught == 3) {
-      scene = 4;
+      scene = 5;
     }
     if (keyPressed) {
       if (key == 'm') {
         scene = 0;
       } else if (key == 'p') {
-        scene = 4;
+        scene = 5;
       }
     }
-  } else if (scene == 4 || scene == 5 || scene == 6 || scene == 7 || scene == 8 || scene == 9 || scene == 10 || scene == 11 || scene == 12 || scene == 13) {
+  } else if (scene == 5 || scene == 6 || scene == 7 || scene == 8 || scene == 9 || scene == 20 || scene == 21 || scene == 22 || scene == 23 || scene == 24) {
     parkingGame();
     if (keyPressed) {
       if (key == 'r') {
         carSelect = -1;
       } else if (key == 'i') {
-        scene = 3;
+        scene = 4;
       }
     }
-  } else if (scene == 4) {
+  } else if (scene == 5) {
     background(255);
-  } else if (scene == 11) {
+  } else if (scene == 22) {
     background(0);
     if (keyPressed && key == 'p') {
-      scene = 15;
+      scene = 25;
     }
-  } else if (scene == 19) {
+  } else if (scene == 29) {
     endScreenW();
-  } else if (scene == 18) {
+  } else if (scene == 28) {
     endScreenL();
     delay(1000);
-    scene = 17;
-  } else if (scene == 17) {
+    scene = 27;
+  } else if (scene == 27) {
     goodbye();
   }
 }
@@ -140,7 +156,7 @@ void hook() {
 void titleScreen() {
   pushMatrix();
   translate(0, signY+205);
-  image(loadImage("woodensign-removebg-preview.png"),150,415,600,120);
+  image(loadImage("woodensign-removebg-preview.png"), 150, 415, 600, 120);
   fill(255, 255, 255);
   textFont(createFont("Brush Script MT", 110));
   text("Fishing Mania", 174, 500);
@@ -152,34 +168,65 @@ void titleScreen() {
   popMatrix();
 }
 
-void menu(){
+void menu() {
   strokeWeight(5);
-  stroke(128,0,0);
-  fill(255,0,0);
-  rect(250,400,400,100,20);
-  stroke(0,128,33);
-  fill(0,255,65);
-  rect(250,280,400,100,20);
-  fill(0,0,0);
+  stroke(128, 0, 0);
+  fill(255, 0, 0);
+  rect(250, 400, 400, 100, 20);
+  stroke(0, 128, 33);
+  fill(0, 255, 65);
+  rect(250, 280, 400, 100, 20);
+  fill(0, 0, 0);
   textFont(createFont("Cooper Black", 80));
-  text("Start",342.5,357);
-  text("Quit",358.5,472);
+  text("Start", 342.5, 357);
+  text("Quit", 358.5, 472);
 }
 
-void instructions1(){
+void instructions1() {
   textFont(createFont("Times New Roman", 40));
-  text("        To fish, click the left mouse button, when \nclicked, the fishing rod will move toward the \ntop of the screen. Try and hit the fish as you \ngo up to get to the goal of 3 fish. Trash \ndecreases durability, and you have 10. If \ndurability hits 0, you lose. After catching a \nfish, you must play a minigame which will be \nexplained later in the game to continue.\n",84.5,120);
+  fill(255);
+  text("        To fish, click the left mouse button, when \nclicked, the fishing rod will move toward the \ntop of the screen. Try and hit the fish as you \ngo up to get to the goal of 3 fish. Trash \ndecreases durability, and you have 10. If \ndurability hits 0, you lose. After catching a \nfish, you must play a minigame which will be \nexplained later in the game to continue.\n", 84.5, 120);
   textFont(createFont("Times New Roman", 30));
-  text("Press 'P' to play",652,540);
-  text("Press 'M' to return to the menu",60,540);
+  text("Press 'P' to play", 652, 540);
+  text("Press 'M' to return to the menu", 60, 540);
 }
 
-void instructions2(){
+void instructions2() {
+  fill(255);
   textFont(createFont("Times New Roman", 40));
-  text("        The goal is to slide the fish through the \nexit opening in the edge of the grid. To play, \nshift the fish and the garbage up and down or \nleft and right, until the path is cleared to slide \nthe fish out the exit. You can only move \nforwards and backwards, not sideways. To \nmove an object, you must click on it then use \nthe arrow keys to move it up and down or left \nand right.",87,90);
+  text("        The goal is to slide the fish through the \nexit opening in the edge of the grid. To play, \nshift the fish and the garbage up and down or \nleft and right, until the path is cleared to slide \nthe fish out the exit. You can only move \nforwards and backwards, not sideways. To \nmove an object, you must click on it then use \nthe arrow keys to move it up and down or left \nand right.", 87, 90);
   textFont(createFont("Times New Roman", 30));
-  text("Press 'P' to play",652,540);
-  text("Press 'M' to return to the menu",60,540);
+  text("Press 'P' to play", 652, 540);
+  text("Press 'M' to return to the menu", 60, 540);
+}
+
+void levelSelection() {
+  titleScreen();
+  fill(255);
+  stroke(0);
+  textFont(createFont("Cooper Black", 60));
+  text("Please select a difficulty", 83.5, 280);
+  text("Hard", 355, 340);
+  text("Medium", 355, 400);
+  text("Easy", 355, 460);
+  fill(#299DE3);
+  if (difficulty == 3) {
+    fill(#00D31A);
+  }
+  rect(305, 300, 40, 40);
+  fill(#299DE3);
+  if (difficulty == 2) {
+    fill(#00D31A);
+  } 
+  rect(305, 360, 40, 40);
+  fill(#299DE3);
+  if (difficulty == 1) {
+    fill(#00D31A);
+  }
+  rect(305, 420, 40, 40);
+  fill(255);
+  textFont(createFont("Times New Roman", 30));
+  text("Press 'Enter' to continue", 550, 540);
 }
 
 void fishGame() {
@@ -204,7 +251,7 @@ void fishGame() {
   garbage2();
   fishingRod();
   if (durability == 100) {
-    scene = 18;
+    scene = 28;
   }
 }
 
@@ -270,7 +317,7 @@ void fish() {
   if (isCollided == true ) {
     fishCaught++;
     fishY=-200;
-    scene = 3;
+    scene = 4;
   }
   if (fishRebound == 5) {
     drawFish(fishStartX, fishStartY);
@@ -304,7 +351,7 @@ void fish2() {
   if (isCollided == true ) {
     fishCaught++;
     fishY2=-200;
-    scene = 3;
+    scene = 4;
   }
   if (fishRebound2 == 6) {
     drawFish(fishStartX2, fishStartY2);
@@ -338,7 +385,7 @@ void fish3() {
   if (isCollided == true ) {
     fishCaught++;
     fishY3=-200;
-    scene = 3;
+    scene = 4;
   }
   if (fishRebound3 == 6) {
     drawFish(fishStartX3, fishStartY3);
@@ -373,7 +420,7 @@ void fish4() {
   if (isCollided == true ) {
     fishCaught++;
     fishY4=-200;
-    scene = 3;
+    scene = 4;
   }
   if (fishRebound4 == 7) {
     drawFish(fishStartX4, fishStartY4);
@@ -468,52 +515,52 @@ void parkingGame() {
   stroke(#0070FF);
   line(720, 213, 720, 297);
   if (carSelect == -1) {
-    if (scene == 1) {
+    if (scene == 2) {
       carX = new IntList(270, 270, 450, -100, -100, -100, 315, 495, 675, -100, -100);
       carY = new IntList(255, 345, 525, -100, -100, -100, 480, 255, 255, -100, -100);
       carWidth = new IntList(180, 180, 180, 0, 0, 0, 90, 90, 90, 0, 0);
       carHeight = new IntList(90, 90, 90, 0, 0, 0, 180, 270, 270, 0, 0);
-    } else if (scene == 2) {
+    } else if (scene == 3) {
       carX = new IntList(270, 450, -100, -100, -100, -100, 315, 675, 675, 495, -100);
       carY = new IntList(255, 435, -100, -100, -100, -100, 390, 210, 390, 165, -100);
       carWidth = new IntList(180, 180, 0, 0, 0, 0, 90, 90, 90, 90, 0);
       carHeight = new IntList(90, 90, 0, 0, 0, 0, 180, 180, 180, 270, 0);
-    } else if (scene == 3) {
+    } else if (scene == 4) {
       carX = new IntList(360, 585, 495, -100, -100, -100, 405, 675, 225, 495, -100);
       carY = new IntList(255, 345, 525, -100, -100, -100, 390, 480, 165, 165, -100);
       carWidth = new IntList(180, 270, 270, 0, 0, 0, 90, 90, 90, 90, 0);
       carHeight = new IntList(90, 90, 90, 0, 0, 0, 180, 180, 270, 270, 0);
-    } else if (scene == 4) {
+    } else if (scene == 5) {
       carX = new IntList(450, 540, 315, 0, 0, 0, 315, 405, 585, 585, -100);
       carY = new IntList(255, 435, 75, 0, 0, 0, 210, 390, 300, 120, -100);
       carWidth = new IntList(180, 180, 270, 0, 0, 0, 90, 90, 90, 90, -100);
       carHeight = new IntList(90, 90, 90, 0, 0, 0, 180, 180, 180, 180, -100);
-    } else if (scene == 5) {
+    } else if (scene == 6) {
       carX = new IntList(360, 270, 450, -100, -100, -100, 315, 405, 495, 675, -100);
       carY = new IntList(255, 345, 525, -100, -100, -100, 480, 390, 255, 255, -100);
       carWidth = new IntList(180, 180, 180, 0, 0, 0, 90, 90, 90, 90, 0);
       carHeight = new IntList(90, 90, 90, 0, 0, 0, 180, 180, 270, 270, 0);
-    } else if (scene == 6) {
+    } else if (scene == 7) {
       carX = new IntList(450, 270, 540, 315, -100, -100, 225, 405, 585, 585, 495);
       carY = new IntList(255, 75, 165, 435, -100, -100, 210, 120, 300, 480, 435);
       carWidth = new IntList(180, 180, 180, 270, 0, 0, 90, 90, 90, 90, 90);
       carHeight = new IntList(90, 90, 90, 90, 0, 0, 180, 180, 180, 180, 270);
-    } else if (scene == 7) {
+    } else if (scene == 8) {
       carX = new IntList(540, 270, 360, 630, -100, -100, 405, 675, 495, 225, -100);
       carY = new IntList(255, 75, 435, 345, -100, -100, 165, 165, 435, 390, -100);
       carWidth = new IntList(180, 180, 180, 180, 0, 0, 90, 90, 90, 90, 0);
       carHeight = new IntList(90, 90, 90, 90, 0, 0, 270, 270, 270, 180, 0);
-    } else if (scene == 8) {
+    } else if (scene == 9) {
       carX = new IntList(360, 585, 495, 360, -100, -100, 405, 675, 225, 495, -100);
       carY = new IntList(255, 345, 525, 75, -100, -100, 390, 480, 165, 165, -100);
       carWidth = new IntList(180, 270, 270, 180, 0, 0, 90, 90, 90, 90, -100);
       carHeight = new IntList(90, 90, 90, 90, 0, 0, 180, 180, 270, 270, -100);
-    } else if (scene == 9) {
+    } else if (scene == 20) {
       carX = new IntList(270, 360, 540, 540, 585, 585, 225, 405, 405, 495, 675);
       carY = new IntList(255, 165, 345, 435, 75, 525, 120, 300, 480, 210, 345);
       carWidth = new IntList(180, 180, 180, 180, 270, 270, 90, 90, 90, 90, 90);
       carHeight = new IntList(90, 90, 90, 90, 90, 90, 180, 180, 180, 180, 270);
-    } else if (scene == 15) {
+    } else if (scene == 25) {
       carX = new IntList(270, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       carY = new IntList(255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       carWidth = new IntList(180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -549,9 +596,9 @@ void fishCar() {
 void car1() {
   pushMatrix();
   translate(carX.get(1), carY.get(1));
-  if (scene == 1 || scene == 2 || scene == 4 || scene == 5|| scene == 6 || scene == 7 || scene == 9) {
+  if (scene == 2 || scene == 3 || scene == 5 || scene == 6|| scene == 7 || scene == 8 || scene == 20) {
     image(loadImage("can.png"), -90, -45, 180, 90);
-  } else if (scene == 3 || scene == 8) {
+  } else if (scene == 4 || scene == 9) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
   }
   popMatrix();
@@ -560,9 +607,9 @@ void car1() {
 void car2() {
   pushMatrix();
   translate(carX.get(2), carY.get(2));
-  if (scene == 1 || scene == 5|| scene == 6 || scene == 7 || scene == 9) {
+  if (scene == 2 || scene == 6|| scene == 7 || scene == 8 || scene == 20) {
     image(loadImage("can.png"), -90, -45, 180, 90);
-  } else if (scene == 3 || scene == 4 || scene == 8) {
+  } else if (scene == 4 || scene == 5 || scene == 9) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
   }
   popMatrix();
@@ -571,9 +618,9 @@ void car2() {
 void car3() {
   pushMatrix();
   translate(carX.get(3), carY.get(3));
-  if (scene == 7 || scene == 8 || scene == 9) {
+  if (scene == 8 || scene == 9 || scene == 20) {
     image(loadImage("can.png"), -90, -45, 180, 90);
-  } else if (scene == 6) {
+  } else if (scene == 7) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
   }
   popMatrix();
@@ -582,7 +629,7 @@ void car3() {
 void car4() {
   pushMatrix();
   translate(carX.get(4), carY.get(4));
-  if (scene == 9) {
+  if (scene == 20) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
   }
   popMatrix();
@@ -591,9 +638,9 @@ void car4() {
 void car5() {
   pushMatrix();
   translate(carX.get(5), carY.get(5));
-  if (scene == 1) {
+  if (scene == 2) {
     image(loadImage("can.png"), -90, -45, 180, 90);
-  } else if (scene == 9) {
+  } else if (scene == 20) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
   }
   popMatrix();
@@ -603,9 +650,9 @@ void car6() {
   pushMatrix();
   translate(carX.get(6), carY.get(6));
   rotate(radians(90));
-  if (scene == 7) {
+  if (scene == 8) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
-  } else if (scene == 1 || scene == 2 || scene == 3 || scene == 4 || scene == 5|| scene == 6 || scene == 8 || scene == 9) {
+  } else if (scene == 2 || scene == 3 || scene == 4 || scene == 5 || scene == 6|| scene == 7 || scene == 9 || scene == 20) {
     image(loadImage("can.png"), -90, -45, 180, 90);
   }
   popMatrix();
@@ -615,9 +662,9 @@ void car7() {
   pushMatrix();
   translate(carX.get(7), carY.get(7));
   rotate(radians(90));
-  if (scene == 1 || scene == 7) {
+  if (scene == 2 || scene == 8) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
-  } else if (scene == 2 || scene == 3 || scene == 4 || scene == 5|| scene == 6 || scene == 8 || scene == 9) {
+  } else if (scene == 3 || scene == 4 || scene == 5 || scene == 6|| scene == 7 || scene == 9 || scene == 20) {
     image(loadImage("can.png"), -90, -45, 180, 90);
   }
   popMatrix();
@@ -627,9 +674,9 @@ void car8() {
   pushMatrix();
   translate(carX.get(8), carY.get(8));
   rotate(radians(90));
-  if (scene == 1 || scene == 3 || scene == 5|| scene == 7 || scene == 8) {
+  if (scene == 2 || scene == 4 || scene == 6|| scene == 8 || scene == 9) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
-  } else if (scene == 2 || scene == 4 || scene == 6 || scene == 9) {
+  } else if (scene == 3 || scene == 5 || scene == 7 || scene == 20) {
     image(loadImage("can.png"), -90, -45, 180, 90);
   }
   popMatrix();
@@ -639,9 +686,9 @@ void car9() {
   pushMatrix();
   translate(carX.get(9), carY.get(9));
   rotate(radians(90));
-  if (scene == 4 || scene == 6 || scene == 7 || scene == 9) {
+  if (scene == 5 || scene == 7 || scene == 8 || scene == 20) {
     image(loadImage("can.png"), -90, -45, 180, 90);
-  } else if (scene == 2 || scene == 3 || scene == 5|| scene == 8) {
+  } else if (scene == 3 || scene == 4 || scene == 6|| scene == 9) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
   }
   popMatrix();
@@ -653,14 +700,14 @@ void car10() {
   rotate(radians(90));
   if (scene == 0) {
     image(loadImage("can.png"), -90, -45, 180, 90);
-  } else if (scene == 6 || scene == 9) {
+  } else if (scene == 7 || scene == 20) {
     image(loadImage("plastic_bottle.png"), -135, -45, 270, 90);
   }
   popMatrix();
 }
 
 void mousePressed() {
-  if (scene == 4 || scene == 5 || scene == 6 || scene == 7 || scene == 8 || scene == 9 || scene == 10 || scene == 11 || scene == 12 || scene == 13) {
+  if (scene == 5 || scene == 6 || scene == 7 || scene == 8 || scene == 9 || scene == 20 || scene == 21 || scene == 22 || scene == 23 || scene == 24) {
     if (abs(mouseX - carX.get(0)) < carWidth.get(0)/2 && abs(mouseY - carY.get(0)) < carHeight.get(0)/2) {
       carSelect = 1;
     } else if (abs(mouseX - carX.get(1)) < carWidth.get(1)/2 && abs(mouseY - carY.get(1)) < carHeight.get(1)/2) {
@@ -691,7 +738,7 @@ void mousePressed() {
 }
 
 void keyPressed() {
-  if (scene == 4 || scene == 5 || scene == 6 || scene == 7 || scene == 8 || scene == 9 || scene == 10 || scene == 11 || scene == 12 || scene == 13) {
+  if (scene == 5 || scene == 6 || scene == 7 || scene == 8 || scene == 9 || scene == 20 || scene == 21 || scene == 22 || scene == 23 || scene == 24) {
     if (carX.get(0) < 630) {
       if (keyCode == LEFT) {
         for (int i = 0; i < 6; i++) {
@@ -777,11 +824,11 @@ void keyPressed() {
     } else {
       if (keyPressed) {
         if (keyCode == RIGHT) {
-          scene = 2;
+          scene = 3;
           carSelect = -1;
           fishingRodY = 550;
           if (fishCaught == 3) {
-            scene = 19;
+            scene = 29;
           }
         }
       }
@@ -789,21 +836,21 @@ void keyPressed() {
   }
 }
 
-void endScreenW(){
+void endScreenW() {
   fill(#FEFF00);
   textFont(createFont("Impact", 200));
-  text("You win!",110,379);
+  text("You win!", 110, 379);
 }
 
-void endScreenL(){
+void endScreenL() {
   fill(#FF0000);
   textFont(createFont("Impact", 200));
-  text("You lose!",80,379);
+  text("You lose!", 80, 379);
 }
 
-void goodbye(){
+void goodbye() {
   fill(255);
   textFont(createFont("Impact", 100));
-  text("Thanks for playing",75,290);
-  text("our game :D",210,390);
+  text("Thanks for playing", 75, 290);
+  text("our game :D", 210, 390);
 }
