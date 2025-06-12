@@ -35,7 +35,7 @@ int difficulty; // difficulty of game (not in plan)
 void setup() {
   size(900, 600);
 }
-
+//mix of Richard, Kai, and Seth's work
 void draw() {
   background(#299DE3);
   if (scene == -1) {
@@ -157,7 +157,7 @@ void draw() {
     instructions2();
   }
 }
-
+//Kai
 // draws the rod part of fishing rod (not in plan)
 void rod() {
   stroke(0, 0, 0);
@@ -270,7 +270,7 @@ void levelSelection() {
   textFont(createFont("Times New Roman", 30));
   text("Press 'Enter' to continue", 550, 560);
 }
-
+//Seth
 // runs the fish game
 void fishGame() {
   background(#299DE3);
@@ -560,7 +560,7 @@ void garbage3() {
   }
   trashX3 += trashRebound3;
 }
-
+//Richard
 // runs parking game
 void parkingGame() {
   if (difficulty == 3) {
@@ -937,7 +937,7 @@ void keyPressed() {
     }
   }
 }
-
+//Kai
 void endScreenW() {
   fill(#FEFF00);
   textFont(createFont("Impact", 200));
