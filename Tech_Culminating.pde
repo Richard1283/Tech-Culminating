@@ -1,3 +1,7 @@
+//ICD2OP Culminating Project - Fishing Game
+//Richard Chen, Kai Zou, and Seth Robinson
+//June 11, 2025
+//Ms. Krasteva
 int scene = -1; // decides which scene is being displayed
 float titleCardY = 0; // y coordinate of the title (not in plan)
 int fishingRodY = -350; // y coordinate of fishing rod
